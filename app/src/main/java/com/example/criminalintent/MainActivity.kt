@@ -1,9 +1,13 @@
 package com.example.criminalintent
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.criminalintent.ui.CrimeFragment
+import com.example.criminalintent.ui.CrimeListFragment
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,4 +24,24 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onCrimeSelected(crimeId: UUID) {
+        val fragment = CrimeFragment.newInstance(crimeId)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onAddButtonClick(crime: Crime) {
+        val fragment = CrimeFragment.newInstance(crime.id)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+
 }
